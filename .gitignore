@@ -1,0 +1,4 @@
+__pycache__
+.env
+cacert.pem
+.DS_Store
