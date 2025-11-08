@@ -1,0 +1,100 @@
+{
+  "need_reasoning": "no",
+  "game_state": "{}",
+  "valid_movement": ["UP", "RIGHT", "DOWN", "LEFT"],
+  "nearest_crate": {
+    "crate_available": "yes",
+    "crate_action": "RIGHT",
+    "crate_pos": [13, 5],
+    "crate_distance": 3.0,
+    "crate_reason": "Nearest crate identified and reachable."
+  },
+  "check_bomb_radius": {
+    "in_bomb_radius": "no",
+    "in_danger": "no",
+    "escape_bomb_action": "WAIT"
+  },
+  "plant_bomb_available": {
+    "plant": "false",
+    "reason": "not adjacent to crate",
+    "current_status": "No bomb detected."
+  },
+  "coins_collection_policy": {
+    "coin_available": "yes",
+    "coin_action": "UP",
+    "coin_reason": "Coins are reachable."
+  },
+  "movement_history": [
+    {
+      "reasoning": "Moving toward coin to increase score",
+      "action": "UP"
+    },
+    {
+      "reasoning": "Continuing path to coin",
+      "action": "RIGHT"
+    },
+    {
+      "reasoning": "Avoiding crate obstacle",
+      "action": "DOWN"
+    }
+  ],
+  "opponents": [
+    {
+      "name": "rule_based_agent",
+      "position": [5, 7],
+      "distance_to_us": 8.0,
+      "in_danger": false,
+      "escape_routes": [],
+      "bombs_available": 1,
+      "score": 3,
+      "score_diff": 1,
+      "valid_moves": ["UP", "RIGHT", "LEFT"],
+      "last_3_actions": [
+        [5, 8],
+        [5, 7],
+        [4, 7]
+      ],
+      "nearest_coin_direction": "UP",
+      "nearest_crate_direction": "RIGHT",
+      "can_bomb_us": false
+    },
+    {
+      "name": "ppo_agent",
+      "position": [12, 3],
+      "distance_to_us": 6.0,
+      "in_danger": true,
+      "escape_routes": ["LEFT"],
+      "bombs_available": 0,
+      "score": 2,
+      "score_diff": 0,
+      "valid_moves": ["LEFT", "DOWN"],
+      "last_3_actions": [
+        [11, 3],
+        [12, 3],
+        [12, 3]
+      ],
+      "nearest_coin_direction": "DOWN",
+      "nearest_crate_direction": null,
+      "can_bomb_us": false
+    },
+    {
+      "name": "aggressive_agent",
+      "position": [8, 9],
+      "distance_to_us": 4.0,
+      "in_danger": false,
+      "escape_routes": [],
+      "bombs_available": 1,
+      "score": 1,
+      "score_diff": -1,
+      "valid_moves": ["UP", "RIGHT", "DOWN", "LEFT"],
+      "last_3_actions": [
+        [7, 9],
+        [8, 9],
+        [8, 8]
+      ],
+      "nearest_coin_direction": "LEFT",
+      "nearest_crate_direction": "DOWN",
+      "can_bomb_us": true
+    }
+  ]
+}
