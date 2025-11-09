@@ -196,7 +196,7 @@ if __name__ == "__main__":
 
     print("""
 ╔══════════════════════════════════════════════════════════════════╗
-║           Agentic Bomberman Endpoint Test Suite                 ║
+║           Agentic Bomberman Endpoint Test Suite                  ║
 ╚══════════════════════════════════════════════════════════════════╝
     """)
 

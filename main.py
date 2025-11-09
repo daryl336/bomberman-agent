@@ -14,6 +14,7 @@ set_tracing_disabled(True)
 
 from app import bot
 from agentic_app import agentic_bot
+from battle_app import battle_bot
 
 app = FastAPI()
 
@@ -43,7 +44,7 @@ async def generate_action(request: Request):
         movement_history = json.loads(movement_history)
     try:
         # Bot Response in the final answer already, together with the final map dict url.
-        final_answer = await bot(need_reasoning, game_state, valid_movement, nearest_crate, check_bomb_radius, plant_bomb_available, coins_collection_policy, movement_history)
+        final_answer = await bot(need_reasoning, game_state, valid_movement, nearest_crate, check_bomb_radius, plant_bomb_available, coins_collection_policy, movement_history, maverick_top_actions="", maverick_features="", maverick_best_action="")
         return final_answer
     except Exception as e:
         print(f"Error : {str(e)}")
@@ -80,6 +81,39 @@ async def generate_action_agentic(request: Request):
     try:
         # Agentic bot: Uses PredictAgent tools to predict each opponent's move, then makes final decision
         final_answer = await agentic_bot(need_reasoning, game_state, valid_movement, nearest_crate, check_bomb_radius, plant_bomb_available, coins_collection_policy, movement_history, opponents)
+        return final_answer
+    except Exception as e:
+        print(f"Error : {str(e)}")
+        print(traceback.format_exc())
+        return {"reasoning": f"Error! {str(e)}", "action":"WAIT"}
+
+@app.post("/battle-agent")
+async def generate_action_battle(request: Request):
+    logging.info('Processing a request for battle agent.')
+    data = await request.json()
+    need_reasoning = data.get("need_reasoning","no")
+    game_state = data.get("game_state","{}")
+    valid_movement = data.get("valid_movement","[]")
+    nearest_crate = data.get("nearest_crate","{}")
+    check_bomb_radius = data.get("check_bomb_radius","{}")
+    plant_bomb_available = data.get("plant_bomb_available","{}")
+    coins_collection_policy = data.get("coins_collection_policy","{}")
+    movement_history = data.get("movement_history","[]")
+    if isinstance(valid_movement, str):
+        valid_movement = json.loads(valid_movement)
+    if isinstance(nearest_crate, str):
+        nearest_crate = json.loads(nearest_crate)
+    if isinstance(check_bomb_radius, str):
+        check_bomb_radius = json.loads(check_bomb_radius)
+    if isinstance(plant_bomb_available, str):
+        plant_bomb_available = json.loads(plant_bomb_available)
+    if isinstance(coins_collection_policy, str):
+        coins_collection_policy = json.loads(coins_collection_policy)
+    if isinstance(movement_history, str):
+        movement_history = json.loads(movement_history)
+    try:
+        # Battle bot: Aggressive agent focused on destroying crates and eliminating opponents while maintaining safety
+        final_answer = await battle_bot(need_reasoning, game_state, valid_movement, nearest_crate, check_bomb_radius, plant_bomb_available, coins_collection_policy, movement_history, maverick_top_actions="", maverick_features="", maverick_best_action="")
         return final_answer
     except Exception as e:
         print(f"Error : {str(e)}")

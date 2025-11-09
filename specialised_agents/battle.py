@@ -11,12 +11,12 @@ from agent_settings import MyAgentSettings
 from agent_settings import MAX_RETRIES, RETRY_DELAY_SECONDS, RETRYABLE_STATUS_CODES, RETRYABLE_EXCEPTIONS
 from tool_logger import ToolLogger
 
-class BombermanAgent():
+class BattleAgent():
     async def initialise_agent(self, need_reasoning, game_state, valid_movement, in_bomb_radius, plant_bomb_available, maverick=False):
         """
-        Initialises the Bomberman agent with the necessary settings and tools.
+        Initialises the Battle-focused Bomberman agent with the necessary settings and tools.
         """
-        self.name = "Bomberman Agent"
+        self.name = "Battle Agent"
         self.need_reasoning = need_reasoning
         self.game_state = game_state
         self.valid_movement = valid_movement
@@ -43,27 +43,36 @@ class BombermanAgent():
             """A specific action selected from the available valid movements, including strategic bomb placements, to achieve game objectives."""
             
         specialist_instructions = """
-        Role: You are an expert Bomberman agent. Your main goal is to collect as much coins as possible, clear obstacles to explore new areas, and to survive the game by avoiding bombs and traps.
+        Role: You are an aggressive battle-focused Bomberman agent. Your main goal is to dominate the battlefield by destroying crates and eliminating opponents while maintaining your own survival.
 
         Tasks:
-        1. Collect as many coins as possible.
-        2. Place bombs strategically to eliminate obstacles and opponents.
+        1. Destroy crates strategically to control the map and create advantageous positions.
+        2. Eliminate opponents by trapping them with bombs or forcing them into dangerous positions.
+        3. Collect coins opportunistically when safe to do so.
+        4. Survive by escaping danger and maintaining safe positioning.
 
         Inputs:
         - List of valid movements available for you to choose.
         - Information on whether you are in any bomb blast radius.
         - Reason for planting a bomb, if available.
         - Movement history to track past actions.
-        
+        - Opponent predictions including their positions, intentions, and vulnerabilities.
+
         Expected Outputs:
         - Provide a reason for your chosen actions.
         - Specify the action to be taken.
 
         Additional Information:
-        - Always prioritize player safety while maximizing offensive opportunities.
-        - Continuously adapt strategies based on changing game dynamics and opponent behavior.
+        - Prioritize survival first: If you are in danger, ALWAYS escape immediately.
+        - Prioritize offensive opportunities second: Look for chances to trap opponents or destroy multiple crates.
+        - Prioritize coin collection third: Only collect coins when it doesn't compromise safety or offensive positioning.
+        - When planting bombs, ensure you have a clear escape route before committing.
+        - Consider opponent predictions to anticipate their moves and set traps.
+        - Use bombs to control territory and limit opponent movement options.
         - If you decide to plant a bomb, return "BOMB" for your action.
-        - Always prioritise safety and escape over planting a bomb.
+        - Be aggressive but calculated - a dead agent scores nothing.
+        - Look for opportunities to corner opponents by predicting their escape routes.
+        - Destroy crates to reveal coins and reduce opponent hiding spots.
         """
         if self.maverick:
             specialist_instructions += """- You will also have additional input from your friend Maverick. Take into consideration of Maverick actions. Overwrite it if it is dangerous and not feasible. Remember your priorities and stay on course."""

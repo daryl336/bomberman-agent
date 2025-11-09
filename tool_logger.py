@@ -31,7 +31,7 @@ class ToolLogger(RunHooks):
         self.total_output_tokens += context.usage.output_tokens
         print("\n" + "-"*60)
         print(f"🏁 Event #{self.event_counter} → Agent: **{agent.name}** ended")
-        # print(f"   ↪ Output: {output}")
+        print(f"   ↪ Output: {output}")
         print(f"   {self._usage_to_str(context.usage)}")
         print("-"*60)
         

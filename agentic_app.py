@@ -10,7 +10,7 @@ from agent_settings import MyAgentSettings
 from tool_logger import ToolLogger
 
 async def agentic_bot(need_reasoning, game_state, valid_movement, nearest_crate, check_bomb_radius,
-                     plant_bomb_available, coins_collection_policy, movement_history, opponents):
+                     plant_bomb_available, coins_collection_policy, movement_history, opponents, maverick_top_actions="", maverick_features="", maverick_best_action=""):
     """
     Agentic bot that uses PredictAgent as tools to predict each opponent's move,
     then makes a final decision using the main orchestrator agent.
@@ -87,10 +87,14 @@ async def agentic_bot(need_reasoning, game_state, valid_movement, nearest_crate,
         final_input = movement_input + "\n" + current_input
     else:
         final_input = current_input
-
+    if maverick_best_action:
+        final_input += f"""Maverick Actions:{maverick_top_actions}\nMaverick Features:{maverick_features}\nMaverick Best Action: {maverick_best_action}"""
+        maverick = True
+    else:
+        maverick = False
     # Step 3: Create main orchestrator agent with opponent predictions
     agent = BombermanAgent()
-    await agent.initialise_agent(need_reasoning, game_state, valid_movement, in_bomb_radius, plant_bomb_available)
+    await agent.initialise_agent(need_reasoning, game_state, valid_movement, in_bomb_radius, plant_bomb_available, maverick=maverick)
     results = await agent.run_agent(final_input)
     results['valid_movement'] = valid_movement
     results['opponent_predictions'] = opponent_predictions

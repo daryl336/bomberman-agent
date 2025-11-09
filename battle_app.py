@@ -1,6 +1,6 @@
-from specialised_agents.bomberman import BombermanAgent
+from specialised_agents.battle import BattleAgent
 
-async def bot(need_reasoning, game_state, valid_movement, nearest_crate, check_bomb_radius, plant_bomb_available, coins_collection_policy, movement_history, maverick_top_actions="", maverick_features="", maverick_best_action=""):
+async def battle_bot(need_reasoning, game_state, valid_movement, nearest_crate, check_bomb_radius, plant_bomb_available, coins_collection_policy, movement_history, maverick_top_actions="", maverick_features="", maverick_best_action=""):
     # {"coin_available":"no", "coin_action":"WAIT", "coin_reason":"No coins available to collect."}
     # {'crate_available': 'yes', 'crate_action': 'LEFT', 'crate_pos': (np.int64(13), np.int64(1)), 'crate_distance': 1.0, 'crate_reason': 'Nearest crate identified and reachable.'}
     crate_available = nearest_crate.get("crate_available")
@@ -43,7 +43,7 @@ async def bot(need_reasoning, game_state, valid_movement, nearest_crate, check_b
         maverick = True
     else:
         maverick = False
-    agent = BombermanAgent()
+    agent = BattleAgent()
     await agent.initialise_agent(need_reasoning, game_state, valid_movement, in_bomb_radius, plant_bomb_available, maverick=maverick)
     results = await agent.run_agent(final_input)
     results['valid_movement'] = valid_movement
