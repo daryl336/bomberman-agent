@@ -41,7 +41,7 @@ async def bot(need_reasoning, game_state, valid_movement, nearest_crate, check_b
     if rl_model_suggestion:
         final_input += f"Q Learning Model actions : {rl_model_suggestion}"
     if maverick_best_action:
-        final_input += f"""Maverick Actions:{maverick_top_actions}\nMaverick Features:{maverick_features}\nMaverick Best Action: {maverick_best_action}"""
+        # final_input += f"""Maverick Actions:{maverick_top_actions}\nMaverick Features:{maverick_features}\nMaverick Best Action: {maverick_best_action}"""
         maverick = True
     else:
         maverick = False
