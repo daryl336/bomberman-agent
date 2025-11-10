@@ -66,7 +66,7 @@ class BombermanAgent():
         - Always prioritise safety and escape over planting a bomb.
         """
         if self.maverick:
-            specialist_instructions += """- You will also have additional input from your friend Maverick. Take into consideration of Maverick actions. Overwrite it if it is dangerous and not feasible. Remember your priorities and stay on course."""
+            specialist_instructions += """- You will also have additional input from your friend Maverick. Take into consideration of Maverick actions. Overwrite it if it is dangerous and not feasible, especially related to BOMB. Remember your priorities and stay on course."""
         if self.need_reasoning == "yes":
             asset_features_specialist = Agent(
                 name=self.name,

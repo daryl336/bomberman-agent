@@ -1,6 +1,6 @@
 from specialised_agents.bomberman import BombermanAgent
 
-async def bot(need_reasoning, game_state, valid_movement, nearest_crate, check_bomb_radius, plant_bomb_available, coins_collection_policy, movement_history, maverick_top_actions="", maverick_features="", maverick_best_action=""):
+async def bot(need_reasoning, game_state, valid_movement, nearest_crate, check_bomb_radius, plant_bomb_available, coins_collection_policy, movement_history, rl_model_suggestion="", maverick_top_actions="", maverick_features="", maverick_best_action=""):
     # {"coin_available":"no", "coin_action":"WAIT", "coin_reason":"No coins available to collect."}
     # {'crate_available': 'yes', 'crate_action': 'LEFT', 'crate_pos': (np.int64(13), np.int64(1)), 'crate_distance': 1.0, 'crate_reason': 'Nearest crate identified and reachable.'}
     crate_available = nearest_crate.get("crate_available")
@@ -38,6 +38,8 @@ async def bot(need_reasoning, game_state, valid_movement, nearest_crate, check_b
         final_input = movement_input +"\n"+current_input
     else:
         final_input = current_input
+    if rl_model_suggestion:
+        final_input += f"Q Learning Model actions : {rl_model_suggestion}"
     if maverick_best_action:
         final_input += f"""Maverick Actions:{maverick_top_actions}\nMaverick Features:{maverick_features}\nMaverick Best Action: {maverick_best_action}"""
         maverick = True

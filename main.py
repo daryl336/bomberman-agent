@@ -30,6 +30,7 @@ async def generate_action(request: Request):
     plant_bomb_available = data.get("plant_bomb_available","{}")
     coins_collection_policy = data.get("coins_collection_policy","{}")
     movement_history = data.get("movement_history","[]")
+    rl_model_suggestion = data.get("rl_model_suggestion","")
     if isinstance(valid_movement, str):
         valid_movement = json.loads(valid_movement)
     if isinstance(nearest_crate, str):
@@ -44,7 +45,7 @@ async def generate_action(request: Request):
         movement_history = json.loads(movement_history)
     try:
         # Bot Response in the final answer already, together with the final map dict url.
-        final_answer = await bot(need_reasoning, game_state, valid_movement, nearest_crate, check_bomb_radius, plant_bomb_available, coins_collection_policy, movement_history, maverick_top_actions="", maverick_features="", maverick_best_action="")
+        final_answer = await bot(need_reasoning, game_state, valid_movement, nearest_crate, check_bomb_radius, plant_bomb_available, coins_collection_policy, movement_history, rl_model_suggestion="", maverick_top_actions="", maverick_features="", maverick_best_action="")
         return final_answer
     except Exception as e:
         print(f"Error : {str(e)}")
@@ -99,6 +100,7 @@ async def generate_action_battle(request: Request):
     plant_bomb_available = data.get("plant_bomb_available","{}")
     coins_collection_policy = data.get("coins_collection_policy","{}")
     movement_history = data.get("movement_history","[]")
+    opponents = data.get("opponents","[]")
     if isinstance(valid_movement, str):
         valid_movement = json.loads(valid_movement)
     if isinstance(nearest_crate, str):
@@ -111,9 +113,11 @@ async def generate_action_battle(request: Request):
         coins_collection_policy = json.loads(coins_collection_policy)
     if isinstance(movement_history, str):
         movement_history = json.loads(movement_history)
+    if isinstance(opponents, str):
+        opponents = json.loads(opponents)
     try:
         # Battle bot: Aggressive agent focused on destroying crates and eliminating opponents while maintaining safety
-        final_answer = await battle_bot(need_reasoning, game_state, valid_movement, nearest_crate, check_bomb_radius, plant_bomb_available, coins_collection_policy, movement_history, maverick_top_actions="", maverick_features="", maverick_best_action="")
+        final_answer = await battle_bot(need_reasoning, game_state, valid_movement, nearest_crate, check_bomb_radius, plant_bomb_available, coins_collection_policy, movement_history, opponents, maverick_top_actions="", maverick_features="", maverick_best_action="")
         return final_answer
     except Exception as e:
         print(f"Error : {str(e)}")
