@@ -43,6 +43,8 @@ async def generate_action(request: Request):
         coins_collection_policy = json.loads(coins_collection_policy)
     if isinstance(movement_history, str):
         movement_history = json.loads(movement_history)
+    if len(valid_movement) == 0:
+        valid_movement = ["WAIT"]
     try:
         # Bot Response in the final answer already, together with the final map dict url.
         final_answer = await bot(need_reasoning, game_state, valid_movement, nearest_crate, check_bomb_radius, plant_bomb_available, coins_collection_policy, movement_history, rl_model_suggestion="", maverick_top_actions="", maverick_features="", maverick_best_action="")
